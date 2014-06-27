@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6.1)
 
-INCLUDE_DIRECTORIES(${ZLIB_INCLUDE_DIR})
+include_directories(${ZLIB_INCLUDE_DIR})
 
 set( LIBTIFF_SOURCES 
 tif_aux.c 
@@ -16,21 +16,21 @@ tif_stream.cxx t4.h tif_config.h tif_config.vc.h tif_dir.h
 tif_fax3.h tif_predict.h tiff.h 
 )
 
-IF(FREEIMAGE_BUILD_TIFF_STATIC)
+if(FREEIMAGE_BUILD_TIFF_STATIC)
   add_library(LibTIFF_s ${LIBTIFF_SOURCES})
 
-  IF(FREEIMAGE_BUILD_STATIC)
-    INSTALL(TARGETS 
+  if(FREEIMAGE_BUILD_STATIC)
+    install(TARGETS 
     LibTIFF_s
     RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" 
     ARCHIVE DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" 
     LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
     )
-    INSTALL(FILES tiff.h tiffconf.h tiffio.h tiffvers.h DESTINATION "${CMAKE_INSTALL_PREFIX}/include/LibTIFF")
-  ENDIF()
-ENDIF(FREEIMAGE_BUILD_TIFF_STATIC)
+    install(FILES tiff.h tiffconf.h tiffio.h tiffvers.h DESTINATION "${CMAKE_INSTALL_PREFIX}/include/LibTIFF")
+  endif()
+endif(FREEIMAGE_BUILD_TIFF_STATIC)
 
-IF(FREEIMAGE_BUILD_TIFF_DLL)
+if(FREEIMAGE_BUILD_TIFF_DLL)
 
   set( LIBTIFF_DLL_SOURCES 
     ${LIBTIFF_SOURCES}
@@ -38,18 +38,18 @@ IF(FREEIMAGE_BUILD_TIFF_DLL)
     libtiff.def
   )
 
-  ADD_DEFINITIONS(-DTIF_PLATFORM_CONSOLE)
+  add_definitions(-DTIF_PLATFORM_CONSOLE)
 
   add_library ( FreeImageTIFF SHARED ${LIBTIFF_DLL_SOURCES} )
   target_link_libraries( FreeImageTIFF FreeImageJPEG )
   target_link_libraries( FreeImageTIFF FreeImageZlib )
 
-  INSTALL(TARGETS 
+  install(TARGETS 
     FreeImageTIFF
     RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" 
     ARCHIVE DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" 
     LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
   )
-  INSTALL(FILES tiff.h tiffconf.h tiffio.h tiffvers.h DESTINATION "${CMAKE_INSTALL_PREFIX}/include/LibTIFF")
+  install(FILES tiff.h tiffconf.h tiffio.h tiffvers.h DESTINATION "${CMAKE_INSTALL_PREFIX}/include/LibTIFF")
 
-ENDIF(FREEIMAGE_BUILD_TIFF_DLL)
+endif(FREEIMAGE_BUILD_TIFF_DLL)

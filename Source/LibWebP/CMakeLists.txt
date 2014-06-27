@@ -1,5 +1,5 @@
 
-SET(LIBWEBP_SOURCES
+set(LIBWEBP_SOURCES
   src/dec/dec_alpha.c
   src/dec/dec_buffer.c
   src/dec/dec_frame.c
@@ -91,13 +91,13 @@ SET(LIBWEBP_SOURCES
   src/mux/muxi.h
 )
 
-ADD_LIBRARY(LibWebP_s STATIC 
+add_library(LibWebP_s STATIC 
     ${LIBWEBP_SOURCES}
 )
-  IF(FREEIMAGE_BUILD_STATIC)
+  if(FREEIMAGE_BUILD_STATIC)
     INSTALL(TARGETS 
     LibWebP_s
     RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" 
     ARCHIVE DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" 
     LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"  )
-  ENDIF()  
+  endif()  

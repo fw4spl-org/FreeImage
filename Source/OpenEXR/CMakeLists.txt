@@ -1,11 +1,11 @@
 
-INCLUDE_DIRECTORIES(${ZLIB_INCLUDE_DIR})
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-INCLUDE_DIRECTORIES(Half)
-INCLUDE_DIRECTORIES(Iex)
-INCLUDE_DIRECTORIES(IlmImf)
-INCLUDE_DIRECTORIES(IlmThread)
-INCLUDE_DIRECTORIES(Imath)
+include_directories(${ZLIB_INCLUDE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(Half)
+include_directories(Iex)
+include_directories(IlmImf)
+include_directories(IlmThread)
+include_directories(Imath)
 
 set( OPENEXR_SOURCES 
 
@@ -89,15 +89,15 @@ Imath/ImathRoots.h Imath/ImathShear.h Imath/ImathSphere.h
 Imath/ImathVec.h Imath/ImathVecAlgo.h 
 )
 
-#ADD_DEFINITIONS(-DPNG_BUILD_DLL)
+#add_definitions(-DPNG_BUILD_DLL)
 
 add_library ( OpenEXR_s STATIC ${OPENEXR_SOURCES} )
 
-  IF(FREEIMAGE_BUILD_STATIC)
+  if(FREEIMAGE_BUILD_STATIC)
     INSTALL(TARGETS 
     OpenEXR_s
     RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" 
     ARCHIVE DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" 
     LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
     )
-  ENDIF()  
+  endif()  

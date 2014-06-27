@@ -18,7 +18,7 @@ testTools.cpp
 TestSuite.h 
 )
 
-ADD_DEFINITIONS(${FREEIMAGE_BUILD_FLAGS})
+add_definitions(${FREEIMAGE_BUILD_FLAGS})
 
 add_executable(Test ${TEST_SOURCES} )
 target_link_libraries( Test ${FREEIMAGE_LIBRARIES} )
