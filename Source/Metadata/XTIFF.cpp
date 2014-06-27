@@ -281,7 +281,7 @@ tiff_read_exif_tag(TIFF *tif, TagLib::MDMODEL md_model, FIBITMAP *dib, TagLib& t
 
 			// access fields as values
 
-			const int value_size = _TIFFDataSize(fip->field_type);
+			const int value_size = TIFFDataWidth(fip->field_type);
 			raw_data = _TIFFmalloc(value_size * value_count);
 			mem_alloc = 1;
 			int ok = FALSE;
@@ -462,7 +462,7 @@ tiff_read_exif_tag(TIFF *tif, TagLib::MDMODEL md_model, FIBITMAP *dib, TagLib& t
 			}
 			else {
 				// remember that raw_data = _TIFFmalloc(value_size * value_count);
-				const int value_size = _TIFFDataSize(fip->field_type);
+				const int value_size = TIFFDataWidth(fip->field_type);
 				length = value_size * value_count;
 			}
 			FreeImage_SetTagType(fitag, FIDT_ASCII);
@@ -658,7 +658,7 @@ tiff_write_exif_tags(TIFF *tif, TagLib::MDMODEL md_model, FIBITMAP *dib) {
 				continue;
 			}
 			// type of storage may differ (e.g. rationnal array vs float array type)
-			if(_TIFFDataSize(tif_tag_type) != FreeImage_TagDataWidth(tag_type)) {
+			if(TIFFDataWidth(tif_tag_type) != FreeImage_TagDataWidth(tag_type)) {
 				// skip tag or _TIFFmemcpy will fail
 				continue;
 			}
