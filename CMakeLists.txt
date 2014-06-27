@@ -16,6 +16,9 @@ option(FREEIMAGE_USE_SYSTEM_JPEG "If ON build FreeImage with jpeg." ON)
 option(FREEIMAGE_USE_SYSTEM_PNG "If ON build FreeImage with png." ON)
 option(FREEIMAGE_USE_SYSTEM_TIFF "If ON build FreeImage with tiff." ON)
 
+option(INSTALL_WRAPPER "If ON install FreeImage wrapper." ON)
+option(INSTALL_EXAMPLES "If ON install FreeImage examples." ON)
+
 
 set(FREEIMAGE_STATIC_DEP_LIBRARIES OpenEXR_s LibMNG_s LibOpenJPEG_s LibRawLite_s LibWebP_s)
 if(NOT FREEIMAGE_USE_SYSTEM_ZLIB)
@@ -110,7 +113,9 @@ set(CPACK_PACKAGE_NAME FreeImage )
 set(CPACK_PACKAGE_VERSION "${FREEIMAGE_VERSION_MAIN}.${FREEIMAGE_VERSION_MIDDLE}.${FREEIMAGE_VERSION_LOWER}" )
 include(CPack)
 install(FILES license-fi.txt license-gplv3.txt README.minGW Whatsnew.txt DESTINATION .)
-install(DIRECTORY Examples DESTINATION .
-     PATTERN "CVS" EXCLUDE)
-install(DIRECTORY Wrapper DESTINATION .
-     PATTERN "CVS" EXCLUDE)
+if(INSTALL_EXAMPLES)
+    install(DIRECTORY Examples DESTINATION . PATTERN "CVS" EXCLUDE)
+endif()
+if(INSTALL_WRAPPER)
+    install(DIRECTORY Wrapper DESTINATION . PATTERN "CVS" EXCLUDE)
+endif()
