@@ -141,8 +141,10 @@ typedef uint8_t BYTE;
 typedef uint16_t WORD;
 typedef uint32_t DWORD;
 typedef int32_t LONG;
-typedef int64_t INT64;
-typedef uint64_t UINT64;
+#ifndef _LIBRAW_TYPES_H
+ typedef int64_t INT64;
+ typedef uint64_t UINT64;
+#endif
 #else
 // MS is not C99 ISO compliant
 typedef long BOOL;

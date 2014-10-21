@@ -108,7 +108,10 @@ ReadMetadata(png_structp png_ptr, png_infop info_ptr, FIBITMAP *dib) {
 			tag = FreeImage_CreateTag();
 			if(!tag) return FALSE;
 
-			DWORD tag_length = (DWORD) MAX(text_ptr[i].text_length, text_ptr[i].itxt_length);
+			DWORD tag_length = (DWORD)text_ptr[i].text_length;
+#ifdef PNG_iTXt_SUPPORTED
+			tag_length = MAX(tag_length, (DWORD)text_ptr[i].itxt_length);
+#endif
 
 			FreeImage_SetTagLength(tag, tag_length);
 			FreeImage_SetTagCount(tag, tag_length);
@@ -151,14 +154,19 @@ WriteMetadata(png_structp png_ptr, png_infop info_ptr, FIBITMAP *dib) {
 	if(mdhandle) {
 		do {
 			memset(&text_metadata, 0, sizeof(png_text));
-			text_metadata.compression = 1;							// iTXt, none
+#ifdef PNG_iTXt_SUPPORTED
+ 			text_metadata.compression = 1;							// iTXt, none
+#else
+			text_metadata.compression = -1;
+#endif
 			text_metadata.key = (char*)FreeImage_GetTagKey(tag);	// keyword, 1-79 character description of "text"
 			text_metadata.text = (char*)FreeImage_GetTagValue(tag);	// comment, may be an empty string (ie "")
 			text_metadata.text_length = FreeImage_GetTagLength(tag);// length of the text string
-			text_metadata.itxt_length = FreeImage_GetTagLength(tag);// length of the itxt string
-			text_metadata.lang = 0;		 // language code, 0-79 characters or a NULL pointer
-			text_metadata.lang_key = 0;	 // keyword translated UTF-8 string, 0 or more chars or a NULL pointer
-
+#ifdef PNG_iTXt_SUPPORTED
+ 			text_metadata.itxt_length = FreeImage_GetTagLength(tag);// length of the itxt string
+ 			text_metadata.lang = 0;		 // language code, 0-79 characters or a NULL pointer
+ 			text_metadata.lang_key = 0;	 // keyword translated UTF-8 string, 0 or more chars or a NULL pointer
+#endif
 			// set the tag 
 			png_set_text(png_ptr, info_ptr, &text_metadata, 1);
 
@@ -177,9 +185,11 @@ WriteMetadata(png_structp png_ptr, png_infop info_ptr, FIBITMAP *dib) {
 		text_metadata.key = (char*)g_png_xmp_keyword;					// keyword, 1-79 character description of "text"
 		text_metadata.text = (char*)FreeImage_GetTagValue(tag);	// comment, may be an empty string (ie "")
 		text_metadata.text_length = FreeImage_GetTagLength(tag);// length of the text string
-		text_metadata.itxt_length = FreeImage_GetTagLength(tag);// length of the itxt string
-		text_metadata.lang = 0;		 // language code, 0-79 characters or a NULL pointer
-		text_metadata.lang_key = 0;	 // keyword translated UTF-8 string, 0 or more chars or a NULL pointer
+#ifdef PNG_iTXt_SUPPORTED
+ 		text_metadata.itxt_length = FreeImage_GetTagLength(tag);// length of the itxt string
+ 		text_metadata.lang = 0;		 // language code, 0-79 characters or a NULL pointer
+ 		text_metadata.lang_key = 0;	 // keyword translated UTF-8 string, 0 or more chars or a NULL pointer
+#endif
 
 		// set the tag 
 		png_set_text(png_ptr, info_ptr, &text_metadata, 1);
@@ -561,7 +571,11 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			if (png_get_valid(png_ptr, info_ptr, PNG_INFO_iCCP)) {
 				png_charp profile_name = NULL;
+#if (PNG_LIBPNG_VER < 10500)
+				png_charp profile_data = NULL;
+#else
 				png_bytep profile_data = NULL;
+#endif
 				png_uint_32 profile_length = 0;
 				int  compression_type;
 
@@ -601,7 +615,9 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 				row_pointers[height - 1 - k] = FreeImage_GetScanLine(dib, k);			
 			}
 
-			png_set_benign_errors(png_ptr, 1);
+#ifdef PNG_BENIGN_ERRORS_SUPPORTED
+ 			png_set_benign_errors(png_ptr, 1);
+#endif
 			png_read_image(png_ptr, row_pointers);
 
 			// check if the bitmap contains transparency, if so enable it in the header
@@ -845,7 +861,12 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 			FIICCPROFILE *iccProfile = FreeImage_GetICCProfile(dib);
 			if (iccProfile->size && iccProfile->data) {
-				png_set_iCCP(png_ptr, info_ptr, "Embedded Profile", 0, (png_const_bytep)iccProfile->data, iccProfile->size);
+#if (PNG_LIBPNG_VER < 10500)
+				png_charp profile_data = (png_charp)iccProfile->data;
+#else
+				png_bytep profile_data = (png_bytep)iccProfile->data;
+#endif
+				png_set_iCCP(png_ptr, info_ptr, "Embedded Profile", 0, profile_data, iccProfile->size);
 			}
 
 			// write metadata
