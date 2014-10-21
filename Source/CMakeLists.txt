@@ -73,7 +73,11 @@ set( FREEIMAGE_SOURCES
     FreeImageToolkit/Channels.cpp FreeImageToolkit/ClassicRotate.cpp 
     FreeImageToolkit/Colors.cpp FreeImageToolkit/CopyPaste.cpp 
     FreeImageToolkit/Display.cpp 
-    FreeImageToolkit/Flip.cpp FreeImageToolkit/JPEGTransform.cpp 
+    FreeImageToolkit/Flip.cpp 
+    
+    FreeImageToolkit/JPEGTransform.cpp 
+    FreeImageToolkit/jpeg/transupp.c
+    
     FreeImageToolkit/MultigridPoissonSolver.cpp 
     FreeImageToolkit/Rescale.cpp FreeImageToolkit/Resize.cpp 
     FreeImageToolkit/Filters.h FreeImageToolkit/Resize.h 

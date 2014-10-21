@@ -35,7 +35,7 @@ extern "C" {
 #undef FAR
 #include <setjmp.h>
 
-#include <jinclude.h>
+#include <stdio.h>
 #include <jpeglib.h>
 #include <jerror.h>
 }
