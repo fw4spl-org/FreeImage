@@ -35,10 +35,10 @@
 #undef __unix
 #endif
 
-#include <tiffiop.h>
-
 #include "FreeImage.h"
 #include "Utilities.h"
+//hack The file tiffiop.h is a private, internal header file of the tiff library
+#include "../LibTIFF4/tiffiop.h"
 #include "../Metadata/FreeImageTag.h"
 #include "../OpenEXR/Half/half.h"
 

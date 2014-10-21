@@ -29,8 +29,8 @@
 #pragma warning (disable : 4786) // identifier was truncated to 'number' characters
 #endif
 
-#include <tiffiop.h>
-
+//hack The file tiffiop.h is a private, internal header file of the tiff library
+#include "../LibTIFF4/tiffiop.h"
 #include "FreeImage.h"
 #include "Utilities.h"
 #include "FreeImageTag.h"
