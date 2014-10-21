@@ -91,6 +91,10 @@ set(LIBWEBP_SOURCES
   src/mux/muxi.h
 )
 
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64") 
+  add_definitions(-fPIC) 
+endif()
+
 add_library(LibWebP_s STATIC 
     ${LIBWEBP_SOURCES}
 )

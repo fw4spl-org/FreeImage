@@ -24,6 +24,9 @@ set( LIBRAWLITE_SOURCES
 )
 
 #add_definitions(-DPNG_BUILD_DLL)
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64") 
+  add_definitions(-fPIC) 
+endif()
 
 add_library ( LibRawLite_s STATIC ${LIBRAWLITE_SOURCES} )
 
