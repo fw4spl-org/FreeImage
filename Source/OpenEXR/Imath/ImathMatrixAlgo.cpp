@@ -38,12 +38,13 @@
 
 //----------------------------------------------------------------------------
 //
-//	Implementation of non-template items declared in ImathMatrixAlgo.h
+//  Implementation of non-template items declared in ImathMatrixAlgo.h
 //
 //----------------------------------------------------------------------------
 
 #include "ImathMatrixAlgo.h"
 #include <cmath>
+#include <algorithm>
 
 #if defined(OPENEXR_DLL)
     #define EXPORT_CONST __declspec(dllexport)
@@ -54,22 +55,22 @@
 namespace Imath {
 
 EXPORT_CONST M33f identity33f ( 1, 0, 0,
-				0, 1, 0,
-				0, 0, 1);
+                0, 1, 0,
+                0, 0, 1);
 
 EXPORT_CONST M33d identity33d ( 1, 0, 0,
-				0, 1, 0,
-				0, 0, 1);
+                0, 1, 0,
+                0, 0, 1);
 
 EXPORT_CONST M44f identity44f ( 1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0,
-				0, 0, 0, 1);
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1);
 
 EXPORT_CONST M44d identity44d ( 1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0,
-				0, 0, 0, 1);
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1);
 
 namespace
 {
